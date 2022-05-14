@@ -1,0 +1,17 @@
+from enum import Enum
+
+
+class Status(Enum):
+	NO_STATUS = 0
+	ASLEEP = 1
+	BLINDED = 2
+	BLEEDING = 3
+	BOUND = 4
+	CONTROLLED = 5
+	DISARMED = 6
+	FROZEN = 7
+	POISONED = 8
+	PROTECTED = 9
+	SILENCED = 10
+	SLOWED = 11
+	STUNNED = 12

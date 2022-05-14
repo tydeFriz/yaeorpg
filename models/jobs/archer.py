@@ -1,0 +1,21 @@
+from models.enums.job_name_enum import JobName
+from models.enums.trait_enum import Trait
+from models.job import Job
+
+
+class Archer(Job):
+
+	def __init__(self, secondary_trait: bool):
+		trait = Trait.ARCHER_RANGE_ALL
+		if secondary_trait:
+			trait = Trait.ARCHER_DAMAGE_INCREASE
+		super().__init__(
+			JobName.ARCHER.value,
+			22,
+			12,
+			7,
+			trait,
+			[],#todo
+			[]#todo
+		)
+
