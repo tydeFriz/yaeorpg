@@ -16,10 +16,11 @@ from models.spells.action_components.component_archer_aim_01 import ComponentArc
 class ArcherAim(Action):
 
 	def __init__(self, toon: Toon, talent_level: int):
-		super().__init__(toon, talent_level)
+		super().__init__(toon, talent_level, 25)
 
 	def toon_can_cast(self) -> bool:
-		return self.toon.status not in [
+		has_mana = self.toon.tp_current >= self.tp_cost
+		return has_mana and self.toon.status not in [
 			Status.ASLEEP,
 			Status.CONTROLLED,
 			Status.FROZEN,

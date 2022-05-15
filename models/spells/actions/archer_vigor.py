@@ -16,7 +16,7 @@ from models.spells.action_components.component_archer_vigor_01 import ComponentA
 class ArcherVigor(Action):
 
 	def __init__(self, toon: Toon, talent_level: int):
-		super().__init__(toon, talent_level)
+		super().__init__(toon, talent_level, 25)
 
 	def toon_can_cast(self) -> bool:
 		return self.toon.status not in [
