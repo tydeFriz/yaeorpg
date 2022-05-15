@@ -85,6 +85,9 @@ class Action(ABC):
 		"""
 		return self._components
 
+	def toon_has_mana(self):
+		return self.toon.tp_current >= self.tp_cost
+
 	@abstractmethod
 	def _compose(self) -> list[ActionComponent]:
 		pass

@@ -7,14 +7,8 @@ if TYPE_CHECKING:
 	from models.buff import Buff
 
 
-class ApplyLingeringProcedure:
+class ApplyBuffProcedure:
 
 	@classmethod
 	def run(cls, target: Toon, effect: Buff):
-		for lingering in target.lingering_effects:
-			if type(lingering) is type(effect):
-				if lingering.stackable:
-					lingering.stack(effect.duration)
-				return
-
-		target.lingering_effects.append(effect)
+		target.buff(effect)

@@ -8,17 +8,17 @@ from models.jobs import *
 
 def _make_game() -> Runner:
 	Game.make_runner(
-		Toon('p1_warrior_01', Warrior(False)),
-		Toon('p1_warrior_02', Warrior(False)),
+		Toon('p1_warrior_01', Warrior(False), 25),
+		Toon('p1_warrior_02', Warrior(False), 25),
 		None,
-		Toon('p1_archer_01', Archer(False)),
-		Toon('p1_archer_02', Archer(False)),
-		Toon('p1_archer_03', Archer(False)),
-		Toon('p2_warrior_01', Warrior(False)),
-		Toon('p2_warrior_02', Warrior(False)),
-		Toon('p2_warrior_03', Warrior(False)),
+		Toon('p1_archer_01', Archer(False), 25),
+		Toon('p1_archer_02', Archer(False), 25),
+		Toon('p1_archer_03', Archer(False), 25),
+		Toon('p2_warrior_01', Warrior(False), 25),
+		Toon('p2_warrior_02', Warrior(False), 25),
+		Toon('p2_warrior_03', Warrior(False), 25),
 		None,
-		Toon('p2_archer_01', Archer(False)),
+		Toon('p2_archer_01', Archer(False), 25),
 		None
 	)
 	return Game.get_runner()
@@ -146,7 +146,7 @@ class TestGame(Test):
 	def test_archer_aim(self):
 		runner = _make_game()
 
-		self.assert_int_equal(4, runner.p1_team['b1'].get_attribute(Attribute.SP))
+		self.assert_int_equal(100, runner.p1_team['b1'].get_attribute(Attribute.SP))
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
@@ -164,7 +164,7 @@ class TestGame(Test):
 		self.assert_false(turn)
 		self.assert_str_equal("next attack is also considered a spell", runner.p1_team['b1'].lingering_effects[0].name)
 		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
-		self.assert_int_equal(14, runner.p1_team['b1'].get_attribute(Attribute.SP))  #todo: adapt to talent selection
+		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.SP))  # todo: adapt to talent selection
 
 		turn = runner.turn({}, {})
 		self.assert_false(turn)
@@ -173,26 +173,67 @@ class TestGame(Test):
 	def test_archer_vigor(self):
 		runner = _make_game()
 
-		self.assert_int_equal(4, runner.p1_team['b1'].get_attribute(Attribute.AP))
+		self.assert_int_equal(100, runner.p1_team['b1'].get_attribute(Attribute.AP))
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
-		p1_aim_key = None
+		p1_vigor_key = None
 		for k, v in p1_possible_choices['p1_archer_01'].items():
 			if 'use Vigor' in v:
-				p1_aim_key = k
+				p1_vigor_key = k
 		p1_choices = {
-			'p1_archer_01': p1_aim_key
+			'p1_archer_01': p1_vigor_key
 		}
-		self.assert_true('p1_archer_01' in p1_aim_key)
-		runner.finalise_choice(p1_aim_key, [runner.p1_team['b1'].name])
+		self.assert_true('p1_archer_01' in p1_vigor_key)
+		runner.finalise_choice(p1_vigor_key, [runner.p1_team['b1'].name])
 
 		turn = runner.turn(p1_choices, {})
 		self.assert_false(turn)
 		self.assert_str_equal("next spell is also considered an attack", runner.p1_team['b1'].lingering_effects[0].name)
 		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
-		self.assert_int_equal(14, runner.p1_team['b1'].get_attribute(Attribute.AP))  #todo: adapt to talent selection
+		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.AP))  # todo: adapt to talent selection
 
 		turn = runner.turn({}, {})
 		self.assert_false(turn)
 		self.assert_int_equal(0, len(runner.p1_team['b1'].lingering_effects))
+
+	def test_archer_tracking_arrow(self):
+		runner = _make_game()
+
+		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
+		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_tracking_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Tracking Arrow' in v:
+				p1_tracking_key = k
+		p1_choices = {
+			'p1_archer_01': p1_tracking_key
+		}
+		self.assert_true('p1_archer_01' in p1_tracking_key)
+		runner.finalise_choice(p1_tracking_key, [runner.p2_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_str_equal("lower armor and spell resistance", runner.p2_team['f1'].debuffs[0].name)
+		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)
+		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))  # todo: adapt to talent selection
+		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))  # todo: adapt to talent selection
+
+		turn = runner.turn({}, {})
+		self.assert_false(turn)
+		self.assert_int_equal(3, runner.p2_team['f1'].debuffs[0].duration)
+
+		turn = runner.turn({}, {})
+		self.assert_false(turn)
+		self.assert_int_equal(2, runner.p2_team['f1'].debuffs[0].duration)
+
+		turn = runner.turn({}, {})
+		self.assert_false(turn)
+		self.assert_int_equal(1, runner.p2_team['f1'].debuffs[0].duration)
+
+		turn = runner.turn({}, {})
+		self.assert_false(turn)
+		self.assert_int_equal(0, len(runner.p2_team['f1'].debuffs))

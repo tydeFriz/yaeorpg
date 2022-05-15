@@ -3,6 +3,7 @@ from models.enums.trait_enum import Trait
 from models.job import Job
 from models.spells.spell_archer_aim import SpellArcherAim
 from models.spells.spell_archer_vigor import SpellArcherVigor
+from models.spells.spell_archer_tracking_arrow import SpellArcherTrackingArrow
 
 
 class Archer(Job):
@@ -19,7 +20,8 @@ class Archer(Job):
 			trait,
 			[
 				SpellArcherAim(2),
-				SpellArcherVigor(2), #todo
+				SpellArcherVigor(2),
+				SpellArcherTrackingArrow(2),#todo
 			],
 			[]#todo
 		)

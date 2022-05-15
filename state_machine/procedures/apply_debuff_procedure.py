@@ -7,8 +7,8 @@ if TYPE_CHECKING:
 	from models.buff import Buff
 
 
-class ApplyBuffProcedure:
+class ApplyDebuffProcedure:
 
 	@classmethod
 	def run(cls, target: Toon, effect: Buff):
-		target.buff(effect)
+		target.debuff(effect)

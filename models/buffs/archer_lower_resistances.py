@@ -2,16 +2,17 @@ from models.buff import Buff
 from models.enums.attribute_enum import Attribute
 
 
-class ArcherLingeringNextSpellIsAttack(Buff):
+class ArcherLowerResistances(Buff):
 
 	def __init__(self, talent_level: int):
 		alterations = {
-			Attribute.AP: (talent_level - 1) * 10
+			Attribute.ARMOR: - 20 - (talent_level * 10),
+			Attribute.SPELL_RES: - 20 - (talent_level * 10)
 		}
 
 		super().__init__(
-			'next spell is also considered an attack',
-			2,
+			'lower armor and spell resistance',
+			5,
 			False,
 			alterations
 		)

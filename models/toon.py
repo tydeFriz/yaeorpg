@@ -15,13 +15,12 @@ from state_machine.status_helper import StatusHelper
 from models.buff import Buff
 
 
-def _buff(new_buff: Buff, counter: int, queue: deque[Buff], cap: int):
+def _buff(new_buff: Buff, queue: deque[Buff], cap: int):
 	for buff in queue:
 		if buff.name == new_buff.name:
-			buff.stack(counter)
+			buff.stack(new_buff.duration)
 			return None
 
-	new_buff.duration = counter
 	queue.append(new_buff)
 	if len(queue) > cap:
 		return queue.popleft()
@@ -34,17 +33,18 @@ class Toon:
 	def __init__(
 			self,
 			name: str,
-			job: Job
+			job: Job,
+			level: int
 	):
 		self.name: str = name
 		self.job: Job = job
-		self.level: int = 1
+		self.level: level
 		self.attributes: dict[Attribute, int] = {
-			Attribute.HP: self.job.hp_base,
-			Attribute.TP: self.job.tp_base,
+			Attribute.HP: self.job.hp_base * level,
+			Attribute.TP: self.job.tp_base * level,
 			Attribute.SPEED: job.speed,
-			Attribute.AP: 4,
-			Attribute.SP: 4,
+			Attribute.AP: 4 * level,
+			Attribute.SP: 4 * level,
 			Attribute.ARMOR: 0,
 			Attribute.SPELL_RES: 0,
 			Attribute.STATUS_RES: 0,
@@ -79,25 +79,23 @@ class Toon:
 		"""
 		return self.job.get_available_actions(self)
 
-	def buff(self, new_buff: Buff, counter: int) -> Optional[Buff]:
+	def buff(self, new_buff: Buff) -> Optional[Buff]:
 		"""
 		Apply a new buff, or stack it to an already existing one
 
 		:param new_buff: the buff to apply
-		:param counter: the buff's duration
 		:return: the removed overflow buff, if any
 		"""
-		return _buff(new_buff, counter, self.buffs, self.attributes[Attribute.BUFF_CAP])
+		return _buff(new_buff, self.buffs, self.attributes[Attribute.BUFF_CAP])
 
-	def debuff(self, new_debuff: Buff, counter: int) -> Optional[Buff]:
+	def debuff(self, new_debuff: Buff) -> Optional[Buff]:
 		"""
 		Apply a new debuff, or stack it to an already existing one
 
 		:param new_debuff: the debuff to apply
-		:param counter: the debuff's duration
 		:return: the removed overflow debuff, if any
 		"""
-		return _buff(new_debuff, counter, self.debuffs, self.attributes[Attribute.DEBUFF_CAP])
+		return _buff(new_debuff, self.debuffs, self.attributes[Attribute.DEBUFF_CAP])
 
 	def un_buff(self) -> Optional[Buff]:
 		"""

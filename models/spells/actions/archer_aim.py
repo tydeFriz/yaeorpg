@@ -19,8 +19,7 @@ class ArcherAim(Action):
 		super().__init__(toon, talent_level, 25)
 
 	def toon_can_cast(self) -> bool:
-		has_mana = self.toon.tp_current >= self.tp_cost
-		return has_mana and self.toon.status not in [
+		return self.toon_has_mana() and self.toon.status not in [
 			Status.ASLEEP,
 			Status.CONTROLLED,
 			Status.FROZEN,

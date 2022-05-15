@@ -195,16 +195,27 @@ class Runner:
 			component.run(self)
 
 	def _tick_effects(self):
-		for toon in self.p1_team.values():
+		toons = list(self.p1_team.values())
+		toons.extend(self.p2_team.values())
+		for toon in toons:
 			if toon:
+				buff_cleanup = []
+				debuff_cleanup = []
+
 				for buff in toon.buffs:
 					buff.duration -= 1
 					if buff.duration == 0:
-						toon.buffs.remove(buff)
+						buff_cleanup.append(buff)
+				for buff in buff_cleanup:
+					toon.buffs.remove(buff)
+
 				for debuff in toon.debuffs:
 					debuff.duration -= 1
 					if debuff.duration == 0:
-						toon.debuffs.remove(debuff)
+						debuff_cleanup.append(debuff)
+				for debuff in debuff_cleanup:
+					toon.debuffs.remove(debuff)
+
 				for effect in toon.lingering_effects:
 					effect.duration -= 1
 					if effect.duration == 0:
