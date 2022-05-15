@@ -16,8 +16,8 @@ from models.spells.action_components.component_archer_aim_01 import ComponentArc
 
 class ArcherAim(Action):
 
-	def __init__(self, toon: Toon):
-		super().__init__(toon)
+	def __init__(self, toon: Toon, talent_level: int):
+		super().__init__(toon, talent_level)
 
 	def toon_can_cast(self) -> bool:
 		return self.toon.status not in [

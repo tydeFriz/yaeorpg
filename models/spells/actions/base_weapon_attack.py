@@ -18,7 +18,7 @@ from models.spells.action_components.component_basic_attack_01 import ComponentB
 class BaseWeaponAttack(Action):
 
 	def __init__(self, toon: Toon):
-		super().__init__(toon)
+		super().__init__(toon, 1)
 		self.weapon: Optional[Weapon] = None
 
 		for item in self.toon.get_equip().values():

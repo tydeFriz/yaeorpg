@@ -116,7 +116,6 @@ class Runner:
 		:param p2_choices: the dict toon.name -> Action.strid of p2 choices
 		:return: True if somebody won, false otherwise
 		"""
-		print("starting turn " + str(self.turn_counter))
 		sorted_choices = self._sort_choices(p1_choices, p2_choices)
 		wincon = False
 		for choice in sorted_choices:
@@ -125,6 +124,9 @@ class Runner:
 
 		self.turn_counter += 1
 		self._choice_dict = {}
+
+		self._tick_effects()
+
 		return wincon
 
 	def get_p1_team(self) -> dict[str, Toon]:
@@ -191,6 +193,22 @@ class Runner:
 			return
 		for component in action.get_components():
 			component.run(self)
+
+	def _tick_effects(self):
+		for toon in self.p1_team.values():
+			if toon:
+				for buff in toon.buffs:
+					buff.duration -= 1
+					if buff.duration == 0:
+						toon.buffs.remove(buff)
+				for debuff in toon.debuffs:
+					debuff.duration -= 1
+					if debuff.duration == 0:
+						toon.debuffs.remove(debuff)
+				for effect in toon.lingering_effects:
+					effect.duration -= 1
+					if effect.duration == 0:
+						toon.lingering_effects.remove(effect)
 
 	def _check_wincon(self) -> bool:
 		if self.turn_counter > 999:

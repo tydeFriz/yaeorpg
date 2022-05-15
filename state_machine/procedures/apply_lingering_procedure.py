@@ -17,4 +17,4 @@ class ApplyLingeringProcedure:
 					lingering.stack(effect.duration)
 				return
 
-			target.lingering_effects.append(effect)
+		target.lingering_effects.append(effect)

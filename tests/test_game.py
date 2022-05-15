@@ -97,7 +97,7 @@ class TestGame(Test):
 		self.assert_dict_has_key("p2_archer_01", p2_possible_choices)
 		self.assert_type(dict, p2_possible_choices["p2_archer_01"])
 
-		p1_choices= {}
+		p1_choices = {}
 		for toon_name, choice in p1_possible_choices.items():
 			choice_key, choice_description = list(choice.items())[0]
 			p1_choices[toon_name] = choice_key
@@ -119,11 +119,11 @@ class TestGame(Test):
 
 		p1_choices = {}
 		for toon_name, choice in p1_possible_choices.items():
-			choice_key, choice_description = list(choice.items())[0]
+			choice_key, choice_description = list(choice.items())[-1]
 			p1_choices[toon_name] = choice_key
 		p2_choices = {}
 		for toon_name, choice in p2_possible_choices.items():
-			choice_key, choice_description = list(choice.items())[0]
+			choice_key, choice_description = list(choice.items())[-1]
 			p2_choices[toon_name] = choice_key
 
 		for choice_key in p1_choices.values():
@@ -141,3 +141,26 @@ class TestGame(Test):
 		self.assert_int_equal(1, runner.turn_counter)
 		self.assert_int_less_than(current_victim1_hp, victim1.hp_current)
 		self.assert_int_less_than(current_victim2_hp, victim2.hp_current)
+
+	def test_archer_aim(self):
+		runner = _make_game()
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_aim_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Aim' in v:
+				p1_aim_key = k
+		p1_choices = {
+			'p1_archer_01': p1_aim_key
+		}
+		self.assert_true('p1_archer_01' in p1_aim_key)
+		runner.finalise_choice(p1_aim_key, [runner.p1_team['b1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_str_equal("next attack is also considered a spell", runner.p1_team['b1'].lingering_effects[0].name)
+		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
+
+		turn = runner.turn({}, {})
+		self.assert_false(turn)
+		self.assert_int_equal(0, len(runner.p1_team['b1'].lingering_effects))

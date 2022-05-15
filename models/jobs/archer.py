@@ -1,6 +1,7 @@
 from models.enums.job_name_enum import JobName
 from models.enums.trait_enum import Trait
 from models.job import Job
+from models.spells.spell_archer_aim import SpellArcherAim
 
 
 class Archer(Job):
@@ -15,7 +16,7 @@ class Archer(Job):
 			12,
 			7,
 			trait,
-			[],#todo
+			[SpellArcherAim(2)],#todo
 			[]#todo
 		)
 

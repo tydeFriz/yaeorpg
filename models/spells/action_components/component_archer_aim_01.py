@@ -16,4 +16,4 @@ class ComponentArcherAim01(ActionComponent):
 		if not target:
 			return
 
-		ApplyLingeringProcedure.run(target, LingeringNextAttackIsSpell())
+		ApplyLingeringProcedure.run(target, LingeringNextAttackIsSpell(self.action.talent_level))

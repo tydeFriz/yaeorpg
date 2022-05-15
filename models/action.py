@@ -18,12 +18,14 @@ class Action(ABC):
 
 	def __init__(
 			self,
-			toon: Toon
+			toon: Toon,
+			talent_level: int
 	):
 		self.toon: Toon = toon
 		self.strid: str = toon.name + "_" + _make_strid(12)
 		self.description: str = toon.name + ": " + self._make_description()
 		self.ready_to_run: bool = False
+		self.talent_level: int = talent_level
 		self._targets: list[str] = []
 		self._components: list[ActionComponent] = self._compose()
 

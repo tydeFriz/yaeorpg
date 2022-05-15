@@ -6,14 +6,12 @@ if TYPE_CHECKING:
 	from models.spell import Spell
 	from models.toon import Toon
 
-from abc import abstractmethod, ABC
-
 from models.enums.trait_enum import Trait
-from models.spells.base_weapon_attack import BaseWeaponAttack
+from models.spells.actions.base_weapon_attack import BaseWeaponAttack
 from models.talent import Talent
 
 
-class Job(ABC):
+class Job:
 
 	def __init__(
 			self,
@@ -40,7 +38,7 @@ class Job(ABC):
 		:param toon: the toon to check
 		:return: the list of available actions
 		"""
-		actions = self._get_actions()
+		actions = self._get_actions(toon)
 		actions.append(BaseWeaponAttack(toon))
 
 		available_actions = []
@@ -51,10 +49,10 @@ class Job(ABC):
 
 		return available_actions
 
-	def _get_actions(self) -> list[Action]:
+	def _get_actions(self, caster: Toon) -> list[Action]:
 		actions = []
 		for spell in self.spells:
-			actions.append(spell.make_action())
+			actions.append(spell.make_action(caster))
 		return actions
 
 	def _get_custom_actions(self) -> list[Action]:
