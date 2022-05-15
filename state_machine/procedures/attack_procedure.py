@@ -11,6 +11,7 @@ from models.enums.attribute_enum import Attribute
 
 
 class AttackProcedure:
+	# todo: missing hit rating (blind) checks
 
 	@classmethod
 	def run(cls, caster: Toon, target: Toon):

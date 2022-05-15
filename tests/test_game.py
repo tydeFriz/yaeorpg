@@ -7,17 +7,17 @@ from models.jobs import *
 
 def _make_game() -> Runner:
 	Game.make_runner(
-		Toon('p1_warrior_01', Warrior()),
-		Toon('p1_warrior_02', Warrior()),
+		Toon('p1_warrior_01', Warrior(False)),
+		Toon('p1_warrior_02', Warrior(False)),
 		None,
-		Toon('p1_archer_01', Archer()),
-		Toon('p1_archer_02', Archer()),
-		Toon('p1_archer_03', Archer()),
-		Toon('p2_warrior_01', Warrior()),
-		Toon('p2_warrior_02', Warrior()),
-		Toon('p2_warrior_03', Warrior()),
+		Toon('p1_archer_01', Archer(False)),
+		Toon('p1_archer_02', Archer(False)),
+		Toon('p1_archer_03', Archer(False)),
+		Toon('p2_warrior_01', Warrior(False)),
+		Toon('p2_warrior_02', Warrior(False)),
+		Toon('p2_warrior_03', Warrior(False)),
 		None,
-		Toon('p2_archer_01', Archer()),
+		Toon('p2_archer_01', Archer(False)),
 		None
 	)
 	return Game.get_runner()
