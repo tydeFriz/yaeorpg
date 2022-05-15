@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 	from models.toon import Toon
 
-from models.buffs.lingering_next_attack_is_spell import LingeringNextAttackIsSpell
+from models.buffs.archer_lingering_next_attack_is_spell import ArcherLingeringNextAttackIsSpell
 from models.enums.attribute_enum import Attribute
 
 
@@ -17,7 +17,7 @@ class AttackProcedure:
 	def run(cls, caster: Toon, target: Toon):
 		effect_attack_is_spell = None
 		for lingering in caster.lingering_effects:
-			if type(lingering) is LingeringNextAttackIsSpell:
+			if type(lingering) is ArcherLingeringNextAttackIsSpell:
 				effect_attack_is_spell = lingering
 
 		damage_amount = caster.get_attribute(Attribute.AP)

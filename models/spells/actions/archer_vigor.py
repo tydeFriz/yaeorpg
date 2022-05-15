@@ -10,10 +10,10 @@ from models.enums.trait_enum import Trait
 from models.enums.attribute_enum import Attribute
 from models.enums.status_enum import Status
 from state_machine.range_helper import RangeHelper
-from models.spells.action_components.component_archer_aim_01 import ComponentArcherAim01
+from models.spells.action_components.component_archer_vigor_01 import ComponentArcherVigor01
 
 
-class ArcherAim(Action):
+class ArcherVigor(Action):
 
 	def __init__(self, toon: Toon, talent_level: int):
 		super().__init__(toon, talent_level)
@@ -45,7 +45,7 @@ class ArcherAim(Action):
 		return self.toon.get_attribute(Attribute.SPEED)
 
 	def _compose(self) -> list[ActionComponent]:
-		return [ComponentArcherAim01(self)]
+		return [ComponentArcherVigor01(self)]
 
 	def _finalise(self, targets: list[str]) -> bool:
 		if len(targets) != 1:
@@ -55,4 +55,4 @@ class ArcherAim(Action):
 		return True
 
 	def _make_description(self) -> str:
-		return "use Aim"
+		return "use Vigor"
