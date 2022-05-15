@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 class Spell(ABC):
 
 	def __init__(self, talent_level: int):
-		if not 1 < talent_level < 4:
+		if not 0 < talent_level < 4:
 			raise Exception("cannot have a spell with " + str(talent_level) + " talent points")
 		self.talent_level = talent_level
 

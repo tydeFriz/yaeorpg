@@ -1,3 +1,4 @@
+from models.enums.attribute_enum import Attribute
 from models.toon import Toon
 from state_machine.game import Game
 from state_machine.runner import Runner
@@ -144,6 +145,9 @@ class TestGame(Test):
 
 	def test_archer_aim(self):
 		runner = _make_game()
+
+		self.assert_int_equal(4, runner.p1_team['b1'].get_attribute(Attribute.SP))
+
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
 		p1_aim_key = None
@@ -160,6 +164,7 @@ class TestGame(Test):
 		self.assert_false(turn)
 		self.assert_str_equal("next attack is also considered a spell", runner.p1_team['b1'].lingering_effects[0].name)
 		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
+		self.assert_int_equal(14, runner.p1_team['b1'].get_attribute(Attribute.SP))  #todo: adapt to talent selection
 
 		turn = runner.turn({}, {})
 		self.assert_false(turn)

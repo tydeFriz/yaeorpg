@@ -236,6 +236,7 @@ class Toon:
 		alterations.extend(self.buffs)
 		alterations.extend(self.debuffs)
 		alterations.extend(StatusHelper.get_alterations_from_status(self.status))
+		alterations.extend(self.lingering_effects)
 
 		for alteration in alterations:
 			for attr, mod in alteration.attribute_alterations.items():
