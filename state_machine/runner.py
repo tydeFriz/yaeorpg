@@ -7,10 +7,12 @@ if TYPE_CHECKING:
 
 from state_machine.sorter import Sorter
 
+used_names = []
+
 
 def _check_teams(team: dict[str, Optional[Toon]], player_name: str):
+	global used_names
 	slot_count = 0
-	used_names = []
 	for toon in team.values():
 		if not toon:
 			continue
@@ -44,6 +46,8 @@ class Runner:
 			p2_back_2: Optional[Toon],
 			p2_back_3: Optional[Toon]
 	):
+		global used_names
+		used_names = []
 		self.p1_team: dict[str, Optional[Toon]] = {
 			'f1': p1_front_1,
 			'f2': p1_front_2,
@@ -80,6 +84,25 @@ class Runner:
 			if toon and toon.name == toon_name:
 				return toon
 		return None
+
+	def is_in_front(self, toon_name: str):
+		"""
+		Check whether the given toon is in a front row
+
+		:param toon_name: the name of the toon to check
+		:return: True if the toon is in a front row, false otherwise
+		"""
+		for toon in [
+			self.p1_team['f1'],
+			self.p1_team['f2'],
+			self.p1_team['f3'],
+			self.p2_team['f1'],
+			self.p2_team['f2'],
+			self.p2_team['f3']
+		]:
+			if toon.name == toon_name:
+				return True
+		return False
 
 	def get_p1_encoded_choices(self) -> dict[str, dict[str, str]]:
 		"""

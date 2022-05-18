@@ -17,7 +17,7 @@ class ComponentBasicAttack01(ActionComponent):
 			return component_memory
 
 		multiplier = 1.0
-		if self.action.toon.job.trait == Trait.ARCHER_DAMAGE_INCREASE:
+		if self.action.toon.job.trait == Trait.ARCHER_DAMAGE_INCREASE and runner.is_in_front(target.name):
 			multiplier += 0.5
 
 		AttackProcedure.run(self.action.toon, target, multiplier)

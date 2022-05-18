@@ -20,7 +20,7 @@ class ComponentArcherRevengeArrow02(ActionComponent):
 			return component_memory
 
 		multiplier = 0.1 * (self.action.talent_level - 1) * int(component_memory['removed_debuffs'])
-		if self.action.toon.job.trait == Trait.ARCHER_DAMAGE_INCREASE:
+		if self.action.toon.job.trait == Trait.ARCHER_DAMAGE_INCREASE and runner.is_in_front(target.name):
 			multiplier += 0.5
 
 		AttackProcedure.run(self.action.toon, target, 1.0 + multiplier)

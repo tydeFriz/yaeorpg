@@ -1,4 +1,3 @@
-from models.enums.attribute_enum import Attribute
 from models.toon import Toon
 from state_machine.game import Game
 from state_machine.runner import Runner
