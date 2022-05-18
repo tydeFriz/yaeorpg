@@ -1,3 +1,4 @@
+from models.buff import Buff
 from models.buffs.archer_lower_resistances import ArcherLowerResistances
 from models.enums.attribute_enum import Attribute
 from models.toon import Toon
@@ -194,3 +195,35 @@ class TestArcher(Test):
 		self.assert_str_equal("lower turn speed", runner.p2_team['f1'].debuffs[0].name)
 		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)  # todo: adapt to talent selection
 		self.assert_int_equal(1, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
+
+	def test_archer_piercing_arrow(self):
+		runner = _make_game()
+
+		runner.p2_team['f1'].buff(Buff(
+			'MOCK_ARMOR_INCREASE_TEST_ONLY',
+			9,
+			False,
+			{
+				Attribute.ARMOR: 99
+			}
+		))
+
+		caster_tp = runner.p1_team['b1'].tp_current
+		target_hp = runner.p2_team['f1'].hp_current
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_pierce_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Piercing Arrow' in v:
+				p1_pierce_key = k
+		p1_choices = {
+			'p1_archer_01': p1_pierce_key
+		}
+		self.assert_true('p1_archer_01' in p1_pierce_key)
+		runner.finalise_choice(p1_pierce_key, [runner.p2_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
+		self.assert_int_equal(100, target_hp - runner.p2_team['f1'].hp_current)
