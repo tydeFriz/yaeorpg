@@ -8,11 +8,12 @@ if TYPE_CHECKING:
 from models.spells.action_component import ActionComponent
 from state_machine.procedures.apply_debuff_procedure import ApplyDebuffProcedure
 from models.buffs.archer_lower_resistances import ArcherLowerResistances
+from models.enums.component_memory_enum import ComponentMemory
 
 
 class ComponentArcherTrackingArrow02(ActionComponent):
 
-	def run(self, runner: Runner, component_memory: dict[str, str]) -> dict[str, str]:
+	def run(self, runner: Runner, component_memory: dict[ComponentMemory, str]) -> dict[ComponentMemory, str]:
 		target = runner.get_toon_by_name(self.action.get_targets()[0])
 		if not target:
 			return component_memory

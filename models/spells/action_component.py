@@ -6,6 +6,7 @@ if TYPE_CHECKING:
 	from state_machine.runner import Runner
 
 from abc import abstractmethod, ABC
+from models.enums.component_memory_enum import ComponentMemory
 
 
 class ActionComponent(ABC):
@@ -17,7 +18,7 @@ class ActionComponent(ABC):
 		self.action: Action = action
 
 	@abstractmethod
-	def run(self, runner: Runner, component_memory: dict[str, str]) -> dict[str, str]:
+	def run(self, runner: Runner, component_memory: dict[ComponentMemory, str]) -> dict[ComponentMemory, str]:
 		"""
 		Execute the component
 

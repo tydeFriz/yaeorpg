@@ -134,6 +134,8 @@ class TestArcher(Test):
 		self.assert_int_equal(0, runner.p1_team['f3'].get_attribute(Attribute.ARMOR))
 		self.assert_int_equal(0, runner.p1_team['f3'].get_attribute(Attribute.SPELL_RES))
 
+		original_hp = runner.p2_team['f1'].hp_current
+
 		ApplyDebuffProcedure.run(runner.p1_team['f3'], ArcherLowerResistances(2))
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
