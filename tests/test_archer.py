@@ -227,3 +227,36 @@ class TestArcher(Test):
 		self.assert_false(turn)
 		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_int_equal(100, target_hp - runner.p2_team['f1'].hp_current)
+
+	def test_archer_tripleshot(self):
+		runner = _make_game()
+
+		caster_tp = runner.p1_team['b1'].tp_current
+		target_hps = [
+			runner.p2_team['f1'].hp_current,
+			runner.p2_team['f2'].hp_current,
+			runner.p2_team['f3'].hp_current
+		]
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_pierce_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Tripleshot' in v:
+				p1_pierce_key = k
+		p1_choices = {
+			'p1_archer_01': p1_pierce_key
+		}
+		self.assert_true('p1_archer_01' in p1_pierce_key)
+		runner.finalise_choice(p1_pierce_key, [
+			runner.p2_team['f1'].name,
+			runner.p2_team['f2'].name,
+			runner.p2_team['f3'].name
+		])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(65, caster_tp - runner.p1_team['b1'].tp_current)
+		self.assert_int_equal(50, target_hps[0] - runner.p2_team['f1'].hp_current)
+		self.assert_int_equal(50, target_hps[1] - runner.p2_team['f2'].hp_current)
+		self.assert_int_equal(50, target_hps[2] - runner.p2_team['f3'].hp_current)

@@ -1,0 +1,32 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+	from state_machine.runner import Runner
+
+from state_machine.procedures.attack_procedure import AttackProcedure
+from models.spells.action_component import ActionComponent
+from models.enums.trait_enum import Trait
+from models.enums.component_memory_enum import ComponentMemory
+
+
+class ComponentArcherTripleshot01(ActionComponent):
+
+	def run(self, runner: Runner, component_memory: dict[ComponentMemory, str]) -> dict[ComponentMemory, str]:
+		targets = [
+			runner.get_toon_by_name(self.action.get_targets()[0]),
+			runner.get_toon_by_name(self.action.get_targets()[1]),
+			runner.get_toon_by_name(self.action.get_targets()[2])
+		]
+
+		for target in targets:
+			if target is None:
+				continue
+
+			multiplier = 1.0
+			if self.action.toon.job.trait == Trait.ARCHER_DAMAGE_INCREASE and runner.is_in_front(target.name):
+				multiplier += 0.5
+
+			AttackProcedure.run(self.action.toon, target, damage_multiplier=multiplier * 0.5)
+
+		return component_memory
