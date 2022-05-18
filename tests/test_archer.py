@@ -154,3 +154,26 @@ class TestArcher(Test):
 		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))
+
+	def test_archer_cripple(self):
+		runner = _make_game()
+
+		self.assert_int_equal(5, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_cripple_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Cripple' in v:
+				p1_cripple_key = k
+		p1_choices = {
+			'p1_archer_01': p1_cripple_key
+		}
+		self.assert_true('p1_archer_01' in p1_cripple_key)
+		runner.finalise_choice(p1_cripple_key, [runner.p2_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_str_equal("lower turn speed", runner.p2_team['f1'].debuffs[0].name)
+		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)  # todo: adapt to talent selection
+		self.assert_int_equal(1, runner.p2_team['f1'].get_attribute(Attribute.SPEED))

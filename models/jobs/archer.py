@@ -5,6 +5,7 @@ from models.spells.spell_archer_aim import SpellArcherAim
 from models.spells.spell_archer_revenge_arrow import SpellArcherRevengeArrow
 from models.spells.spell_archer_vigor import SpellArcherVigor
 from models.spells.spell_archer_tracking_arrow import SpellArcherTrackingArrow
+from models.spells.spell_archer_cripple import SpellArcherCripple
 
 
 class Archer(Job):
@@ -23,7 +24,8 @@ class Archer(Job):
 				SpellArcherAim(2),
 				SpellArcherVigor(2),
 				SpellArcherTrackingArrow(2),
-				SpellArcherRevengeArrow(2),#todo
+				SpellArcherRevengeArrow(2),
+				SpellArcherCripple(2),#todo
 			],
 			[]#todo
 		)
