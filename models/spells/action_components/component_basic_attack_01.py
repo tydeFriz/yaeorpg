@@ -6,6 +6,7 @@ if TYPE_CHECKING:
 
 from state_machine.procedures.attack_procedure import AttackProcedure
 from models.spells.action_component import ActionComponent
+from models.enums.trait_enum import Trait
 
 
 class ComponentBasicAttack01(ActionComponent):
@@ -15,5 +16,9 @@ class ComponentBasicAttack01(ActionComponent):
 		if not target:
 			return component_memory
 
-		AttackProcedure.run(self.action.toon, target)
+		multiplier = 1.0
+		if self.action.toon.job.trait == Trait.ARCHER_DAMAGE_INCREASE:
+			multiplier += 0.5
+
+		AttackProcedure.run(self.action.toon, target, multiplier)
 		return component_memory
