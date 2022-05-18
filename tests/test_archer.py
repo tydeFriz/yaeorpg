@@ -36,6 +36,8 @@ class TestArcher(Test):
 
 		self.assert_int_equal(100, runner.p1_team['b1'].get_attribute(Attribute.SP))
 
+		caster_tp = runner.p1_team['b1'].tp_current
+
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
 		p1_aim_key = None
@@ -50,6 +52,7 @@ class TestArcher(Test):
 
 		turn = runner.turn(p1_choices, {})
 		self.assert_false(turn)
+		self.assert_int_equal(25, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("next attack is also considered a spell", runner.p1_team['b1'].lingering_effects[0].name)
 		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
 		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.SP))  # todo: adapt to talent selection
@@ -62,6 +65,8 @@ class TestArcher(Test):
 		runner = _make_game()
 
 		self.assert_int_equal(100, runner.p1_team['b1'].get_attribute(Attribute.AP))
+
+		caster_tp = runner.p1_team['b1'].tp_current
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
@@ -77,6 +82,7 @@ class TestArcher(Test):
 
 		turn = runner.turn(p1_choices, {})
 		self.assert_false(turn)
+		self.assert_int_equal(25, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("next spell is also considered an attack", runner.p1_team['b1'].lingering_effects[0].name)
 		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
 		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.AP))  # todo: adapt to talent selection
@@ -90,6 +96,8 @@ class TestArcher(Test):
 
 		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
 		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))
+
+		caster_tp = runner.p1_team['b1'].tp_current
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
@@ -105,6 +113,7 @@ class TestArcher(Test):
 
 		turn = runner.turn(p1_choices, {})
 		self.assert_false(turn)
+		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("lower armor and spell resistance", runner.p2_team['f1'].debuffs[0].name)
 		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))  # todo: adapt to talent selection
@@ -135,6 +144,7 @@ class TestArcher(Test):
 		self.assert_int_equal(0, runner.p1_team['f3'].get_attribute(Attribute.SPELL_RES))
 
 		original_hp = runner.p2_team['f1'].hp_current
+		caster_tp = runner.p1_team['f3'].tp_current
 
 		ApplyDebuffProcedure.run(runner.p1_team['f3'], ArcherLowerResistances(2))
 
@@ -152,6 +162,7 @@ class TestArcher(Test):
 
 		turn = runner.turn(p1_choices, {})
 		self.assert_false(turn)
+		self.assert_int_equal(45, caster_tp - runner.p1_team['f3'].tp_current)
 		self.assert_int_equal(1, len(runner.p2_team['f1'].debuffs))
 		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
@@ -162,6 +173,8 @@ class TestArcher(Test):
 		runner = _make_game()
 
 		self.assert_int_equal(5, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
+
+		caster_tp = runner.p1_team['b1'].tp_current
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
@@ -177,6 +190,7 @@ class TestArcher(Test):
 
 		turn = runner.turn(p1_choices, {})
 		self.assert_false(turn)
+		self.assert_int_equal(30, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("lower turn speed", runner.p2_team['f1'].debuffs[0].name)
 		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)  # todo: adapt to talent selection
 		self.assert_int_equal(1, runner.p2_team['f1'].get_attribute(Attribute.SPEED))

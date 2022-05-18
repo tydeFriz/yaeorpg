@@ -214,6 +214,8 @@ class Runner:
 			raise Exception("action '" + action.description + "' not ready to run")
 		if not action.toon_can_cast() or not action.get_valid_targets():
 			return
+		if not action.toon.consume(action.tp_cost):
+			return
 		component_memory = {}
 		for component in action.get_components():
 			component_memory = component.run(self, component_memory)
