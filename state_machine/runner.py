@@ -6,6 +6,7 @@ if TYPE_CHECKING:
 	from models.toon import Toon
 
 from state_machine.sorter import Sorter
+from models.enums.status_enum import Status
 
 used_names = []
 
@@ -246,6 +247,16 @@ class Runner:
 					effect.duration -= 1
 					if effect.duration == 0:
 						toon.lingering_effects.remove(effect)
+
+				if toon.status not in [
+					Status.NO_STATUS,
+					Status.BLEEDING,
+					Status.POISONED
+				]:
+					toon.status_counter -= 1
+					if toon.status_counter < 1:
+						toon.status = Status.NO_STATUS
+						toon.status_counter = Status.DEFAULT_COUNTERS.value[Status.NO_STATUS.value]
 
 	def _check_wincon(self) -> bool:
 		if self.turn_counter > 999:

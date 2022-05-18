@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 	from models.toon import Toon
 
+from state_machine.status_helper import StatusHelper
 from models.enums.status_enum import Status
 from models.enums.attribute_enum import Attribute
 
@@ -15,6 +16,9 @@ class ApplyStatusProcedure:
 	@classmethod
 	def run(cls, target: Toon, status: Status, counter: int = -1):
 
+		if StatusHelper.is_toon_immune(target, status):
+			return
+
 		target_resistance = target.get_attribute(Attribute.STATUS_RES)
 		if randint(1, 100) < target_resistance:
 			return
@@ -22,6 +26,6 @@ class ApplyStatusProcedure:
 		target.status = status
 
 		if counter != -1:
-			target.status_counter = counter
+			target.status_counter = counter + 1
 		else:
-			target.status_counter = Status.DEFAULT_COUNTERS[status]
+			target.status_counter = Status.DEFAULT_COUNTERS.value[status.value] + 1

@@ -10,11 +10,11 @@ from models.enums.component_memory_enum import ComponentMemory
 from models.enums.status_enum import Status
 
 
-class ComponentArcherCripple01(ActionComponent):
+class ComponentArcherBlindingArrow01(ActionComponent):
 	def run(self, runner: Runner, component_memory: dict[ComponentMemory, str]) -> dict[ComponentMemory, str]:
 		target = runner.get_toon_by_name(self.action.get_targets()[0])
 		if not target:
 			return component_memory
 
-		ApplyStatusProcedure.run(target, Status.BLEEDING)
+		ApplyStatusProcedure.run(target, Status.BLINDED)
 		return component_memory
