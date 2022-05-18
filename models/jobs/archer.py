@@ -2,6 +2,7 @@ from models.enums.job_name_enum import JobName
 from models.enums.trait_enum import Trait
 from models.job import Job
 from models.spells.spell_archer_aim import SpellArcherAim
+from models.spells.spell_archer_revenge_arrow import SpellArcherRevengeArrow
 from models.spells.spell_archer_vigor import SpellArcherVigor
 from models.spells.spell_archer_tracking_arrow import SpellArcherTrackingArrow
 
@@ -21,7 +22,8 @@ class Archer(Job):
 			[
 				SpellArcherAim(2),
 				SpellArcherVigor(2),
-				SpellArcherTrackingArrow(2),#todo
+				SpellArcherTrackingArrow(2),
+				SpellArcherRevengeArrow(2),#todo
 			],
 			[]#todo
 		)

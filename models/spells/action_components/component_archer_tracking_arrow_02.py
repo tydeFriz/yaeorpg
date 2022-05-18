@@ -10,11 +10,12 @@ from state_machine.procedures.apply_debuff_procedure import ApplyDebuffProcedure
 from models.buffs.archer_lower_resistances import ArcherLowerResistances
 
 
-class ComponentTrackingArrow02(ActionComponent):
+class ComponentArcherTrackingArrow02(ActionComponent):
 
-	def run(self, runner: Runner) -> None:
+	def run(self, runner: Runner, component_memory: dict[str, str]) -> dict[str, str]:
 		target = runner.get_toon_by_name(self.action.get_targets()[0])
 		if not target:
-			return
+			return component_memory
 
 		ApplyDebuffProcedure.run(target, ArcherLowerResistances(self.action.talent_level))
+		return component_memory

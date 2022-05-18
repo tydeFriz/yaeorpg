@@ -17,8 +17,12 @@ class ActionComponent(ABC):
 		self.action: Action = action
 
 	@abstractmethod
-	def run(self, runner: Runner) -> None:
+	def run(self, runner: Runner, component_memory: dict[str, str]) -> dict[str, str]:
 		"""
 		Execute the component
+
+		:param runner: the calling runner
+		:param component_memory: the current component memory
+		:return: the updated component memory
 		"""
 		pass

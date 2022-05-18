@@ -1,4 +1,3 @@
-import time
 from enum import Enum
 from typing import Type, Any, Callable, Optional
 
@@ -46,7 +45,8 @@ class Test:
 		for test in self.tests:
 			if self.setup_call:
 				self.setup_call()
-			#time.sleep(2)
+			# import time
+			# time.sleep(2)
 			test()
 			if self.teardown_call:
 				self.teardown_call()

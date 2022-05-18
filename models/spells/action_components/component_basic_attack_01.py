@@ -10,9 +10,10 @@ from models.spells.action_component import ActionComponent
 
 class ComponentBasicAttack01(ActionComponent):
 
-	def run(self, runner: Runner) -> None:
+	def run(self, runner: Runner, component_memory: dict[str, str]) -> dict[str, str]:
 		target = runner.get_toon_by_name(self.action.get_targets()[0])
 		if not target:
-			return
+			return component_memory
 
 		AttackProcedure.run(self.action.toon, target)
+		return component_memory

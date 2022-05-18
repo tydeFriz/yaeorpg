@@ -14,13 +14,13 @@ class AttackProcedure:
 	# todo: missing hit rating (blind) checks
 
 	@classmethod
-	def run(cls, caster: Toon, target: Toon):
+	def run(cls, caster: Toon, target: Toon, damage_multiplier: float = 1.0):
 		effect_attack_is_spell = None
 		for lingering in caster.lingering_effects:
 			if type(lingering) is ArcherLingeringNextAttackIsSpell:
 				effect_attack_is_spell = lingering
 
-		damage_amount = caster.get_attribute(Attribute.AP)
+		damage_amount = caster.get_attribute(Attribute.AP) * damage_multiplier
 		if effect_attack_is_spell is not None:
 			damage_amount += caster.get_attribute(Attribute.SP)
 		damage_amount = max(damage_amount, 0)

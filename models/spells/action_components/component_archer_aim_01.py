@@ -11,7 +11,7 @@ from state_machine.procedures.apply_lingering_procedure import ApplyLingeringPro
 
 class ComponentArcherAim01(ActionComponent):
 
-	def run(self, runner: Runner) -> None:
+	def run(self, runner: Runner, component_memory: dict[str, str]) -> None:
 		target = runner.get_toon_by_name(self.action.get_targets()[0])
 		if not target:
 			return

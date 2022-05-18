@@ -191,8 +191,9 @@ class Runner:
 			raise Exception("action '" + action.description + "' not ready to run")
 		if not action.toon_can_cast() or not action.get_valid_targets():
 			return
+		component_memory = {}
 		for component in action.get_components():
-			component.run(self)
+			component_memory = component.run(self, component_memory)
 
 	def _tick_effects(self):
 		toons = list(self.p1_team.values())
