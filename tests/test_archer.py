@@ -156,6 +156,7 @@ class TestArcher(Test):
 		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))
+		self.assert_int_equal(154, original_hp - runner.p2_team['f1'].hp_current)
 
 	def test_archer_cripple(self):
 		runner = _make_game()
