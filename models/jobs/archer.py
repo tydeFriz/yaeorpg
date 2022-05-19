@@ -7,7 +7,11 @@ from models.job import Job
 
 class Archer(Job):
 
-	def __init__(self, secondary_trait: bool, talents: dict[Talent, int]):
+	def __init__(
+			self,
+			secondary_trait: bool,
+			talents: dict[Talent, int]
+	):
 		trait = Trait.ARCHER_RANGE_ALL
 		if secondary_trait:
 			trait = Trait.ARCHER_DAMAGE_INCREASE

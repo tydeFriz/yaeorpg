@@ -20,7 +20,7 @@ class Job:
 			tp_base: int,
 			speed: int,
 			trait: Trait,
-			spells: list[Spell],  # todo: remove, make from talents
+			spells: list[Spell],
 			talent_attributes: dict[Attribute, int]
 	):
 		self.name: str = name

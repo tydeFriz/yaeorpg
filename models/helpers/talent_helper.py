@@ -24,7 +24,22 @@ class TalentHelper:
 			Talent.ARCHER_TS_UP: (Attribute.SPEED, 1),
 			Talent.ARCHER_HP_UP: (Attribute.HP, 15),
 			Talent.ARCHER_TP_UP: (Attribute.TP, 15)
-		}
+		},
+		JobName.BARD: {},
+		JobName.BERSERKER: {},
+		JobName.GUARDIAN: {
+			Talent.GUARDIAN_AP_UP: (Attribute.AP, 2),
+			Talent.GUARDIAN_HP_UP: (Attribute.HP, 20),
+			Talent.GUARDIAN_TP_UP: (Attribute.TP, 15),
+			Talent.GUARDIAN_ARMOR_UP: (Attribute.ARMOR, 5)
+		},
+		JobName.HEXER: {},
+		JobName.MAGE: {},
+		JobName.MEDIC: {},
+		JobName.PALADIN: {},
+		JobName.ROGUE: {},
+		JobName.SHAMAN: {},
+		JobName.WARRIOR: {}
 	}
 
 	_SPELLS = {
@@ -39,7 +54,17 @@ class TalentHelper:
 			Talent.ARCHER_BLINDING_ARROW: SpellArcherBlindingArrow,
 			Talent.ARCHER_SLOWING_ARROW: SpellArcherSlowingArrow,
 			Talent.ARCHER_POISON_ARROW: SpellArcherPoisonArrow
-		}
+		},
+		JobName.BARD: {},
+		JobName.BERSERKER: {},
+		JobName.GUARDIAN: {},#wip
+		JobName.HEXER: {},
+		JobName.MAGE: {},
+		JobName.MEDIC: {},
+		JobName.PALADIN: {},
+		JobName.ROGUE: {},
+		JobName.SHAMAN: {},
+		JobName.WARRIOR: {}
 	}
 
 	@classmethod
