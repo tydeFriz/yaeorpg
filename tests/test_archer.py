@@ -265,8 +265,6 @@ class TestArcher(Test):
 	def test_archer_blinding_arrow(self):
 		runner = _make_game()
 
-		self.assert_int_equal(5, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
-
 		caster_tp = runner.p1_team['b1'].tp_current
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
@@ -286,4 +284,30 @@ class TestArcher(Test):
 		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_int_equal(Status.BLINDED.value, runner.p2_team['f1'].status.value)
 		self.assert_int_equal(Status.DEFAULT_COUNTERS.value[Status.BLINDED.value], runner.p2_team['f1'].status_counter)
+
+	def test_archer_slowing_arrow(self):
+		runner = _make_game()
+
+		self.assert_int_equal(5, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
+
+		caster_tp = runner.p1_team['b1'].tp_current
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_slowing_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Slowing Arrow' in v:
+				p1_slowing_key = k
+		p1_choices = {
+			'p1_archer_01': p1_slowing_key
+		}
+		self.assert_true('p1_archer_01' in p1_slowing_key)
+		runner.finalise_choice(p1_slowing_key, [runner.p2_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
+		self.assert_int_equal(Status.SLOWED.value, runner.p2_team['f1'].status.value)
+		self.assert_int_equal(Status.DEFAULT_COUNTERS.value[Status.SLOWED.value], runner.p2_team['f1'].status_counter)
+		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
 

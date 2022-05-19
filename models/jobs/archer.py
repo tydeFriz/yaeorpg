@@ -5,6 +5,7 @@ from models.spells.spell_archer_aim import SpellArcherAim
 from models.spells.spell_archer_blinding_arrow import SpellArcherBlindingArrow
 from models.spells.spell_archer_piercing_arrow import SpellArcherPiercingArrow
 from models.spells.spell_archer_revenge_arrow import SpellArcherRevengeArrow
+from models.spells.spell_archer_slowing_arrow import SpellArcherSlowingArrow
 from models.spells.spell_archer_tripleshot import SpellArcherTripleshot
 from models.spells.spell_archer_vigor import SpellArcherVigor
 from models.spells.spell_archer_tracking_arrow import SpellArcherTrackingArrow
@@ -31,7 +32,8 @@ class Archer(Job):
 				SpellArcherCripple(2),
 				SpellArcherPiercingArrow(2),
 				SpellArcherTripleshot(2),
-				SpellArcherBlindingArrow(2),#todo
+				SpellArcherBlindingArrow(2),
+				SpellArcherSlowingArrow(2),#todo
 			],
 			[]#todo
 		)
