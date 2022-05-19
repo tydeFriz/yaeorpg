@@ -16,5 +16,5 @@ class Paladin(Job):
 			3,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

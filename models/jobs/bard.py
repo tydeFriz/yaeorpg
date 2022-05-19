@@ -16,5 +16,5 @@ class Bard(Job):
 			9,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

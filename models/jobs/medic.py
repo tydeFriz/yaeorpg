@@ -16,5 +16,5 @@ class Medic(Job):
 			4,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

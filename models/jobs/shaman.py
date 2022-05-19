@@ -16,5 +16,5 @@ class Shaman(Job):
 			6,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

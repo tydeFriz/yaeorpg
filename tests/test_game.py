@@ -1,3 +1,4 @@
+from models.enums.talent_enum import Talent
 from models.toon import Toon
 from state_machine.game import Game
 from state_machine.runner import Runner
@@ -10,14 +11,14 @@ def _make_game() -> Runner:
 		Toon('p1_warrior_01', Warrior(False), 25),
 		Toon('p1_warrior_02', Warrior(False), 25),
 		None,
-		Toon('p1_archer_01', Archer(False), 25),
-		Toon('p1_archer_02', Archer(False), 25),
-		Toon('p1_archer_03', Archer(False), 25),
+		Toon('p1_archer_01', Archer(False, {}), 25),
+		Toon('p1_archer_02', Archer(False, {}), 25),
+		Toon('p1_archer_03', Archer(False, {}), 25),
 		Toon('p2_warrior_01', Warrior(False), 25),
 		Toon('p2_warrior_02', Warrior(False), 25),
 		Toon('p2_warrior_03', Warrior(False), 25),
 		None,
-		Toon('p2_archer_01', Archer(False), 25),
+		Toon('p2_archer_01', Archer(False, {}), 25),
 		None
 	)
 	return Game.get_runner()

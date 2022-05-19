@@ -16,5 +16,5 @@ class Berserker(Job):
 			6,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

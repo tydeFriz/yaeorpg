@@ -16,5 +16,5 @@ class Guardian(Job):
 			1,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

@@ -2,6 +2,7 @@ from models.buff import Buff
 from models.buffs.archer_lower_resistances import ArcherLowerResistances
 from models.enums.attribute_enum import Attribute
 from models.enums.status_enum import Status
+from models.enums.talent_enum import Talent
 from models.toon import Toon
 from state_machine.game import Game
 from state_machine.procedures.apply_debuff_procedure import ApplyDebuffProcedure
@@ -11,18 +12,31 @@ from models.jobs import *
 
 
 def _make_game() -> Runner:
+	a_talents = {
+		Talent.ARCHER_AIM: 2,
+		Talent.ARCHER_VIGOR: 2,
+		Talent.ARCHER_TRACKING_ARROW: 2,
+		Talent.ARCHER_REVENGE_ARROW: 2,
+		Talent.ARCHER_CRIPPLE: 2,
+		Talent.ARCHER_PIERCING_ARROW: 2,
+		Talent.ARCHER_TRIPLESHOT: 2,
+		Talent.ARCHER_BLINDING_ARROW: 2,
+		Talent.ARCHER_SLOWING_ARROW: 2,
+		Talent.ARCHER_POISON_ARROW: 2,
+	}
+
 	Game.make_runner(
 		Toon('p1_warrior_01', Warrior(False), 25),
 		Toon('p1_warrior_02', Warrior(False), 25),
-		Toon('p1_archer_03', Archer(False), 25),
-		Toon('p1_archer_01', Archer(False), 25),
-		Toon('p1_archer_02', Archer(False), 25),
+		Toon('p1_archer_03', Archer(False, a_talents), 25),
+		Toon('p1_archer_01', Archer(False, a_talents), 25),
+		Toon('p1_archer_02', Archer(False, a_talents), 25),
 		None,
 		Toon('p2_warrior_01', Warrior(False), 25),
 		Toon('p2_warrior_02', Warrior(False), 25),
 		Toon('p2_warrior_03', Warrior(False), 25),
 		None,
-		Toon('p2_archer_01', Archer(False), 25),
+		Toon('p2_archer_01', Archer(False, a_talents), 25),
 		None
 	)
 	return Game.get_runner()
@@ -32,6 +46,56 @@ class TestArcher(Test):
 
 	def setup(self):
 		Game._runner = None
+
+	def test_archer_talents(self):
+		talents = {
+			Talent.ARCHER_AP_UP: 3,
+			Talent.ARCHER_SP_UP: 3,
+			Talent.ARCHER_TS_UP: 3,
+			Talent.ARCHER_HP_UP: 3,
+			Talent.ARCHER_TP_UP: 3,
+			Talent.ARCHER_AIM: 1,
+			Talent.ARCHER_VIGOR: 1,
+			Talent.ARCHER_TRACKING_ARROW: 1,
+			Talent.ARCHER_REVENGE_ARROW: 1,
+			Talent.ARCHER_CRIPPLE: 1,
+			Talent.ARCHER_PIERCING_ARROW: 1,
+			Talent.ARCHER_TRIPLESHOT: 1,
+			Talent.ARCHER_BLINDING_ARROW: 1,
+			Talent.ARCHER_SLOWING_ARROW: 1,
+			Talent.ARCHER_POISON_ARROW: 1,
+		}
+
+		Game.make_runner(
+			Toon('p1_archer_01', Archer(False, talents), 25), None, None,
+			None, None, None,
+			Toon('p2_warrior_01', Warrior(False), 25), None, None,
+			None, None, None
+		)
+		runner = Game.get_runner()
+
+		p1_archer = runner.p1_team['f1']
+		self.assert_int_equal(109, p1_archer.get_attribute(Attribute.AP))
+		self.assert_int_equal(109, p1_archer.get_attribute(Attribute.SP))
+		self.assert_int_equal(10, p1_archer.get_attribute(Attribute.SPEED))
+		self.assert_int_equal(595, p1_archer.get_attribute(Attribute.HP))
+		self.assert_int_equal(345, p1_archer.get_attribute(Attribute.TP))
+		self.assert_int_equal(595, p1_archer.hp_current)
+		self.assert_int_equal(345, p1_archer.tp_current)
+
+		actions = runner.get_p1_encoded_choices()
+		self.assert_true(p1_archer.name in actions)
+		actions = actions[p1_archer.name].values()
+		self.assert_true(p1_archer.name + ': use Aim' in actions)
+		self.assert_true(p1_archer.name + ': use Vigor' in actions)
+		self.assert_true(p1_archer.name + ': use Tracking Arrow' in actions)
+		self.assert_true(p1_archer.name + ': use Revenge Arrow' in actions)
+		self.assert_true(p1_archer.name + ': use Cripple' in actions)
+		self.assert_true(p1_archer.name + ': use Piercing Arrow' in actions)
+		self.assert_true(p1_archer.name + ': use Tripleshot' in actions)
+		self.assert_true(p1_archer.name + ': use Blinding Arrow' in actions)
+		self.assert_true(p1_archer.name + ': use Slowing Arrow' in actions)
+		self.assert_true(p1_archer.name + ': use Poison Arrow' in actions)
 
 	def test_archer_aim(self):
 		runner = _make_game()

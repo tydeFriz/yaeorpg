@@ -7,8 +7,8 @@ if TYPE_CHECKING:
 	from models.toon import Toon
 
 from models.enums.trait_enum import Trait
+from models.enums.attribute_enum import Attribute
 from models.spells.actions.base_weapon_attack import BaseWeaponAttack
-from models.talent import Talent
 
 
 class Job:
@@ -21,7 +21,7 @@ class Job:
 			speed: int,
 			trait: Trait,
 			spells: list[Spell],  # todo: remove, make from talents
-			talents: list[Talent]
+			talent_attributes: dict[Attribute, int]
 	):
 		self.name: str = name
 		self.hp_base: int = hp_base
@@ -29,7 +29,7 @@ class Job:
 		self.speed: int = speed
 		self.trait: Trait = trait
 		self.spells: list[Spell] = spells
-		self.talents: list[Talent] = talents
+		self.talent_attributes = talent_attributes
 
 	def get_available_actions(self, toon: Toon) -> list[Action]:
 		"""

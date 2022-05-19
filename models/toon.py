@@ -52,6 +52,8 @@ class Toon:
 			Attribute.DEBUFF_CAP: 3,
 			Attribute.GEM_CAP: 0,
 		}
+		for attribute, value in self.job.talent_attributes.items():
+			self.attributes[attribute] += value
 
 		# equip
 		self._equip: dict[EquipSlot, Optional[Equip]] = {

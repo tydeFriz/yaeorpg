@@ -16,5 +16,5 @@ class Hexer(Job):
 			4,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

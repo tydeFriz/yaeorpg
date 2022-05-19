@@ -16,5 +16,5 @@ class Rogue(Job):
 			8,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)

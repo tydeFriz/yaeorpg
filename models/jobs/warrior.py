@@ -17,7 +17,7 @@ class Warrior(Job):
 			5,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)
 
 	def _get_custom_actions(self) -> list[Action]:

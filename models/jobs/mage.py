@@ -16,5 +16,5 @@ class Mage(Job):
 			3,
 			trait,
 			[],#todo
-			[]#todo
+			{}#todo
 		)
