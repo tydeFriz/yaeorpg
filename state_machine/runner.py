@@ -248,7 +248,7 @@ class Runner:
 					if effect.duration == 0:
 						toon.lingering_effects.remove(effect)
 
-				if toon.status not in [
+				if toon.status not in [#todo: tick bleed and poison
 					Status.NO_STATUS,
 					Status.BLEEDING,
 					Status.POISONED

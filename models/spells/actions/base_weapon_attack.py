@@ -12,7 +12,7 @@ from models.enums.item_enums import EquipCategory
 from models.enums.status_enum import Status
 from models.items.weapons.weapon_noodle_fist import WeaponNoodleFist
 from state_machine.range_helper import RangeHelper
-from models.spells.action_components.component_basic_attack_01 import ComponentBasicAttack01
+from models.spells.action_components.component_basic_attack import ComponentBasicAttack01
 
 
 class BaseWeaponAttack(Action):

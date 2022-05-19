@@ -10,7 +10,7 @@ from models.enums.trait_enum import Trait
 from models.enums.attribute_enum import Attribute
 from models.enums.status_enum import Status
 from state_machine.range_helper import RangeHelper
-from models.spells.action_components.component_archer_piercing_arrow_01 import ComponentArcherPiercingArrow01
+from models.spells.action_components.component_archer_piercing_arrow import ComponentArcherPiercingArrow01
 
 
 class ArcherPiercingArrow(Action):

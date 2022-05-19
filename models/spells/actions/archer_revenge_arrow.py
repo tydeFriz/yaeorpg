@@ -10,8 +10,8 @@ from models.enums.trait_enum import Trait
 from models.enums.attribute_enum import Attribute
 from models.enums.status_enum import Status
 from state_machine.range_helper import RangeHelper
-from models.spells.action_components.component_archer_revenge_arrow_01 import ComponentArcherRevengeArrow01
-from models.spells.action_components.component_archer_revenge_arrow_02 import ComponentArcherRevengeArrow02
+from models.spells.action_components.component_archer_revenge_arrow \
+	import ComponentArcherRevengeArrow01, ComponentArcherRevengeArrow02
 
 
 class ArcherRevengeArrow(Action):
