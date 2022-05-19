@@ -47,7 +47,18 @@ class Test:
 				self.setup_call()
 			# import time
 			# time.sleep(2)
-			test()
+			try:
+				test()
+			except Exception as e:
+				_red_print("-")
+				traceback = e.__traceback__
+				message = []
+				while traceback:
+					message.append("{}: {}".format(traceback.tb_frame.f_code.co_filename, traceback.tb_lineno))
+					traceback = traceback.tb_next
+				message.append(str(e))
+				self.messages.append('\n'.join(message))
+
 			if self.teardown_call:
 				self.teardown_call()
 			print("")

@@ -311,3 +311,42 @@ class TestArcher(Test):
 		self.assert_int_equal(Status.DEFAULT_COUNTERS.value[Status.SLOWED.value], runner.p2_team['f1'].status_counter)
 		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
 
+	def test_archer_poison_arrow(self):
+		runner = _make_game()
+
+		caster_tp = runner.p1_team['b1'].tp_current
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_poison_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Poison Arrow' in v:
+				p1_poison_key = k
+		p1_choices = {
+			'p1_archer_01': p1_poison_key
+		}
+		self.assert_true('p1_archer_01' in p1_poison_key)
+		runner.finalise_choice(p1_poison_key, [runner.p2_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
+		self.assert_int_equal(Status.POISONED.value, runner.p2_team['f1'].status.value)
+		self.assert_int_equal(3, runner.p2_team['f1'].status_counter)
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_poison_key = None
+		for k, v in p1_possible_choices['p1_archer_01'].items():
+			if 'use Poison Arrow' in v:
+				p1_poison_key = k
+		p1_choices = {
+			'p1_archer_01': p1_poison_key
+		}
+		self.assert_true('p1_archer_01' in p1_poison_key)
+		runner.finalise_choice(p1_poison_key, [runner.p2_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(Status.POISONED.value, runner.p2_team['f1'].status.value)
+		self.assert_int_equal(6, runner.p2_team['f1'].status_counter)
