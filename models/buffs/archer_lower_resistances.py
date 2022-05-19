@@ -13,6 +13,6 @@ class ArcherLowerResistances(Buff):
 		super().__init__(
 			'lower armor and spell resistance',
 			5,
-			False,
+			True,
 			alterations
 		)

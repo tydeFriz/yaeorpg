@@ -2,16 +2,16 @@ from models.buff import Buff
 from models.enums.attribute_enum import Attribute
 
 
-class ArcherLowerSpeed(Buff):
+class GuardianIncreaseArmor(Buff):
 
-	def __init__(self, talent_level: int):
-		duration = 3 + talent_level
+	def __init__(self):
+		duration = 4
 		alterations = {
-			Attribute.SPEED: -4,
+			Attribute.ARMOR: 20,
 		}
 
 		super().__init__(
-			'lower turn speed',
+			'increase armor',
 			duration,
 			True,
 			alterations

@@ -10,7 +10,7 @@ from models.action import Action
 from models.enums.trait_enum import Trait
 from models.enums.attribute_enum import Attribute
 from models.enums.status_enum import Status
-from state_machine.range_helper import RangeHelper
+from models.helpers.range_helper import RangeHelper
 from models.spells.action_components.component_archer_tripleshot import ComponentArcherTripleshot01
 
 

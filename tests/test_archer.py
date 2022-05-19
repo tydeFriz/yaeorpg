@@ -121,7 +121,7 @@ class TestArcher(Test):
 		self.assert_int_equal(25, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("next attack is also considered a spell", runner.p1_team['b1'].lingering_effects[0].name)
 		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
-		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.SP))  # todo: adapt to talent selection
+		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.SP))
 
 		turn = runner.turn({}, {})
 		self.assert_false(turn)
@@ -151,13 +151,13 @@ class TestArcher(Test):
 		self.assert_int_equal(25, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("next spell is also considered an attack", runner.p1_team['b1'].lingering_effects[0].name)
 		self.assert_int_equal(1, runner.p1_team['b1'].lingering_effects[0].duration)
-		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.AP))  # todo: adapt to talent selection
+		self.assert_int_equal(110, runner.p1_team['b1'].get_attribute(Attribute.AP))
 
 		turn = runner.turn({}, {})
 		self.assert_false(turn)
 		self.assert_int_equal(0, len(runner.p1_team['b1'].lingering_effects))
 
-	def test_archer_tracking_arrow(self):
+	def test_archer_tracking_arrow(self): #todo: test debuff stacking
 		runner = _make_game()
 
 		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
@@ -182,8 +182,8 @@ class TestArcher(Test):
 		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("lower armor and spell resistance", runner.p2_team['f1'].debuffs[0].name)
 		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)
-		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))  # todo: adapt to talent selection
-		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))  # todo: adapt to talent selection
+		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
+		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))
 
 		turn = runner.turn({}, {})
 		self.assert_false(turn)
@@ -235,7 +235,7 @@ class TestArcher(Test):
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))
 		self.assert_int_equal(154, original_hp - runner.p2_team['f1'].hp_current)
 
-	def test_archer_cripple(self):
+	def test_archer_cripple(self): #todo: test debuff stacking
 		runner = _make_game()
 
 		self.assert_int_equal(5, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
@@ -258,7 +258,7 @@ class TestArcher(Test):
 		self.assert_false(turn)
 		self.assert_int_equal(30, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_str_equal("lower turn speed", runner.p2_team['f1'].debuffs[0].name)
-		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)  # todo: adapt to talent selection
+		self.assert_int_equal(4, runner.p2_team['f1'].debuffs[0].duration)
 		self.assert_int_equal(1, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
 
 	def test_archer_piercing_arrow(self):

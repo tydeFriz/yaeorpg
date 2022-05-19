@@ -1,0 +1,21 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+	from state_machine.runner import Runner
+
+from models.spells.action_component import ActionComponent
+from state_machine.procedures.apply_buff_procedure import ApplyBuffProcedure
+from models.buffs.guardian_increase_armor import GuardianIncreaseArmor
+from models.enums.component_memory_enum import ComponentMemory
+
+
+class ComponentGuardianDefensiveStance01(ActionComponent):
+
+	def run(self, runner: Runner, component_memory: dict[ComponentMemory, str]) -> dict[ComponentMemory, str]:
+		target = runner.get_toon_by_name(self.action.get_targets()[0])
+		if not target:
+			return component_memory
+
+		ApplyBuffProcedure.run(target, GuardianIncreaseArmor())
+		return component_memory
