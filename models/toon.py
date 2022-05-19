@@ -38,7 +38,7 @@ class Toon:
 	):
 		self.name: str = name
 		self.job: Job = job
-		self.level: level
+		self.level: int = level
 		self.attributes: dict[Attribute, int] = {
 			Attribute.HP: self.job.hp_base * level,
 			Attribute.TP: self.job.tp_base * level,

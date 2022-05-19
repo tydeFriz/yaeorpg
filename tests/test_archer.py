@@ -315,6 +315,7 @@ class TestArcher(Test):
 		runner = _make_game()
 
 		caster_tp = runner.p1_team['b1'].tp_current
+		target_hp = runner.p2_team['f1'].hp_current
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
@@ -333,6 +334,7 @@ class TestArcher(Test):
 		self.assert_int_equal(40, caster_tp - runner.p1_team['b1'].tp_current)
 		self.assert_int_equal(Status.POISONED.value, runner.p2_team['f1'].status.value)
 		self.assert_int_equal(3, runner.p2_team['f1'].status_counter)
+		self.assert_int_equal(3 * runner.p2_team['f1'].level, target_hp - runner.p2_team['f1'].hp_current)
 
 		p1_possible_choices = runner.get_p1_encoded_choices()
 
@@ -350,3 +352,4 @@ class TestArcher(Test):
 		self.assert_false(turn)
 		self.assert_int_equal(Status.POISONED.value, runner.p2_team['f1'].status.value)
 		self.assert_int_equal(6, runner.p2_team['f1'].status_counter)
+		self.assert_int_equal(9 * runner.p2_team['f1'].level, target_hp - runner.p2_team['f1'].hp_current)

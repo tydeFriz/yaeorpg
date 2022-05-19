@@ -248,7 +248,7 @@ class Runner:
 					if effect.duration == 0:
 						toon.lingering_effects.remove(effect)
 
-				if toon.status not in [#todo: tick bleed and poison
+				if toon.status not in [
 					Status.NO_STATUS,
 					Status.BLEEDING,
 					Status.POISONED
@@ -257,6 +257,8 @@ class Runner:
 					if toon.status_counter < 1:
 						toon.status = Status.NO_STATUS
 						toon.status_counter = Status.DEFAULT_COUNTERS.value[Status.NO_STATUS.value]
+				elif toon.status != Status.NO_STATUS:
+					toon.damage(toon.status_counter * toon.level)
 
 	def _check_wincon(self) -> bool:
 		if self.turn_counter > 999:
