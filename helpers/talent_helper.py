@@ -13,6 +13,7 @@ from models.spells.spell_archer_tripleshot import SpellArcherTripleshot
 from models.spells.spell_archer_vigor import SpellArcherVigor
 from models.spells.spell_archer_tracking_arrow import SpellArcherTrackingArrow
 from models.spells.spell_archer_cripple import SpellArcherCripple
+from models.spells.spell_guardian_anchor_howl import SpellGuardianAnchorHowl
 from models.spells.spell_guardian_defensive_stance import SpellGuardianDefensiveStance
 
 
@@ -60,6 +61,7 @@ class TalentHelper:
 		JobName.BERSERKER: {},
 		JobName.GUARDIAN: {
 			Talent.GUARDIAN_DEFENSIVE_STANCE: SpellGuardianDefensiveStance,
+			Talent.GUARDIAN_ANCHOR_HOWL: SpellGuardianAnchorHowl,
 
 		},#todo: wip
 		JobName.HEXER: {},

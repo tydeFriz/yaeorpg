@@ -13,10 +13,10 @@ class Trigger(ABC):
 	def __init__(
 			self,
 			event: Event,
-			procs: int
+			duration: int
 	):
 		self.event = event
-		self.procs = procs
+		self.duration = duration
 
 	@abstractmethod
 	def run(self, actor: Toon, causes: list[Toon], additional_info: dict[str, Union[int, str]]) -> bool:

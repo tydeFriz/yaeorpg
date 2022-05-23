@@ -169,6 +169,15 @@ class Runner:
 		"""
 		return self._get_team(2)
 
+	def get_toon_allies(self, toon: Toon) -> dict[str, Toon]:
+		"""
+		Get all other toons in the given toon's team
+
+		:param toon: the toon who's allies are to be retrieved
+		:return: a dictionary of position -> Toon entries
+		"""
+		return self._get_toon_allies(toon)
+
 	def _get_team(self, player_number: int) -> dict[str, Toon]:
 		team_to_get = self.p1_team
 		if player_number == 2:
@@ -179,6 +188,26 @@ class Runner:
 			if toon:
 				team[pos] = toon
 		return team
+
+	def _get_toon_allies(self, toon: Toon, p2=False):
+		if p2:
+			check_team = self.get_p2_team()
+		else:
+			check_team = self.get_p1_team()
+
+		team = {}
+		found = False
+		for position, ally in check_team.items():
+			if ally.name == toon.name:
+				found = True
+			else:
+				team[position] = ally
+		if found:
+			return team
+
+		if p2:
+			return {}
+		return self._get_toon_allies(toon, True)
 
 	def _get_encoded_choices(self, team: dict[str, Optional[Toon]]) -> dict[str, dict[str, str]]:
 		encoded_choices = {}
