@@ -6,6 +6,7 @@ if TYPE_CHECKING:
 	from models.equip import Equip
 	from models.gem import Gem
 	from models.job import Job
+	from models.trigger import Trigger
 
 from collections import deque
 from models.enums.attribute_enum import Attribute
@@ -72,6 +73,7 @@ class Toon:
 		self.buffs: deque[Buff] = deque()
 		self.debuffs: deque[Buff] = deque()
 		self.lingering_effects: list[Buff] = []
+		self.triggers: list[Trigger] = []
 
 	def get_available_actions(self) -> list[Action]:
 		"""

@@ -8,6 +8,7 @@ from random import randint
 from math import floor
 from models.buffs.archer_lingering_next_attack_is_spell import ArcherLingeringNextAttackIsSpell
 from models.enums.attribute_enum import Attribute
+from models.enums.event_enum import Event
 
 
 class AttackProcedure:
@@ -46,3 +47,6 @@ class AttackProcedure:
 			damage_amount = damage_amount * (1.0 - (spell_res / 100.0))
 
 		target.damage(floor(damage_amount))
+		for trigger in target.triggers:
+			if trigger.event is Event.ON_ATTACKED:
+				trigger.run(target, [caster], {'amount': floor(damage_amount)})
