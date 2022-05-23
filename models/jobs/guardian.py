@@ -1,7 +1,7 @@
 from models.enums.job_name_enum import JobName
 from models.enums.talent_enum import Talent
 from models.enums.trait_enum import Trait
-from models.helpers.talent_helper import TalentHelper
+from helpers.talent_helper import TalentHelper
 from models.job import Job
 
 

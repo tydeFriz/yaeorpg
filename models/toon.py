@@ -11,7 +11,7 @@ from collections import deque
 from models.enums.attribute_enum import Attribute
 from models.enums.item_enums import EquipSlot, EquipCategory
 from models.enums.status_enum import Status
-from state_machine.status_helper import StatusHelper
+from helpers.status_helper import StatusHelper
 from models.buff import Buff
 
 

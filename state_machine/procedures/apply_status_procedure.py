@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 	from models.toon import Toon
 
-from state_machine.status_helper import StatusHelper
+from helpers.status_helper import StatusHelper
 from models.enums.status_enum import Status
 from models.enums.attribute_enum import Attribute
 
