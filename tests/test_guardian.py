@@ -1,4 +1,3 @@
-from models.buffs.guardian_lingering_attack_riposte import GuardianLingeringAttackRiposte
 from models.enums.attribute_enum import Attribute
 from models.enums.talent_enum import Talent
 from models.toon import Toon
@@ -12,6 +11,7 @@ def _make_game() -> Runner:
 	g_talents = {
 		Talent.GUARDIAN_DEFENSIVE_STANCE: 2,
 		Talent.GUARDIAN_ANCHOR_HOWL: 2,
+		Talent.GUARDIAN_LAST_STAND: 2,
 	}
 
 	Game.make_runner(
@@ -45,6 +45,7 @@ class TestGuardian(Test):
 			Talent.GUARDIAN_ARMOR_UP: 3,
 			Talent.GUARDIAN_DEFENSIVE_STANCE: 1,
 			Talent.GUARDIAN_ANCHOR_HOWL: 1,
+			Talent.GUARDIAN_LAST_STAND: 1,
 			#todo: spells
 		}
 
@@ -69,6 +70,7 @@ class TestGuardian(Test):
 		actions = actions[p1_guardian.name].values()
 		self.assert_true(p1_guardian.name + ': use Defensive Stance' in actions)
 		self.assert_true(p1_guardian.name + ': use Anchor Howl' in actions)
+		self.assert_true(p1_guardian.name + ': use Last Stand' in actions)
 
 	def test_guardian_defensive_stance(self):
 		runner = _make_game()
@@ -130,3 +132,35 @@ class TestGuardian(Test):
 		self.assert_false(turn)
 		self.assert_int_equal(50, caster_tp - runner.p1_team['f1'].tp_current)
 		self.assert_int_equal(150, casualty_hp - runner.p2_team['f2'].hp_current)
+
+	def test_guardian_last_stand(self):
+		runner = _make_game()
+
+		caster_tp = runner.p1_team['f1'].tp_current
+		caster_hp = runner.p1_team['f1'].hp_current
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_last_key = None
+		for k, v in p1_possible_choices['p1_guardian_01'].items():
+			if 'use Last Stand' in v:
+				p1_last_key = k
+		p1_choices = {
+			'p1_guardian_01': p1_last_key
+		}
+		self.assert_true('p1_guardian_01' in p1_last_key)
+		runner.finalise_choice(p1_last_key, [runner.p1_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(50, caster_tp - runner.p1_team['f1'].tp_current)
+		self.assert_str_equal("last stand", runner.p1_team['f1'].buffs[0].name)
+		self.assert_int_equal(caster_hp, runner.p1_team['f1'].hp_current)
+
+		dmg = runner.p1_team['f1'].damage(caster_hp * 10)
+		self.assert_true(dmg)
+		self.assert_int_equal(1, runner.p1_team['f1'].hp_current)
+
+		turn = runner.turn({}, {})
+		self.assert_false(turn)
+		self.assert_int_equal(0, len(runner.p1_team['f1'].buffs))

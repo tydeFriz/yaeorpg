@@ -14,6 +14,7 @@ from models.enums.item_enums import EquipSlot, EquipCategory
 from models.enums.status_enum import Status
 from helpers.status_helper import StatusHelper
 from models.buff import Buff
+from models.buffs.guardian_last_stand import GuardianLastStand
 
 
 def _buff(new_buff: Buff, queue: deque[Buff], cap: int):
@@ -129,6 +130,11 @@ class Toon:
 		:return: True if still alive, false otherwise
 		"""
 		self.hp_current -= amount
+
+		for buff in self.buffs:
+			if buff.__class__ == GuardianLastStand:
+				self.hp_current = 1
+
 		if self.hp_current <= 0:
 			return False
 		return True
