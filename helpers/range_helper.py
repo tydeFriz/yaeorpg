@@ -73,8 +73,8 @@ class RangeHelper:
 					if key in toon_team:
 						valid_targets.append(toon_team[key].name)
 
-		if self.range_min > 0:  # cannot target self
-			valid_targets.remove(self.toon.name)
+			if self.range_min > 0:  # cannot target self
+				valid_targets.remove(self.toon.name)
 
 		if self.can_target_enemy:
 			if self.range_min <= enemy_front <= self.range_max:

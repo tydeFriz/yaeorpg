@@ -13,6 +13,7 @@ def _make_game() -> Runner:
 		Talent.GUARDIAN_ANCHOR_HOWL: 2,
 		Talent.GUARDIAN_LAST_STAND: 2,
 		Talent.GUARDIAN_HEALTH_BOOST: 2,
+		Talent.GUARDIAN_KNOCKBACK: 2,
 	}
 
 	Game.make_runner(
@@ -48,6 +49,7 @@ class TestGuardian(Test):
 			Talent.GUARDIAN_ANCHOR_HOWL: 1,
 			Talent.GUARDIAN_LAST_STAND: 1,
 			Talent.GUARDIAN_HEALTH_BOOST: 1,
+			Talent.GUARDIAN_KNOCKBACK: 1,
 			# todo: spells
 		}
 
@@ -73,6 +75,8 @@ class TestGuardian(Test):
 		self.assert_true(p1_guardian.name + ': use Defensive Stance' in actions)
 		self.assert_true(p1_guardian.name + ': use Anchor Howl' in actions)
 		self.assert_true(p1_guardian.name + ': use Last Stand' in actions)
+		self.assert_true(p1_guardian.name + ': use Health Boost' in actions)
+		self.assert_true(p1_guardian.name + ': use Knockback' in actions)
 
 	def test_guardian_defensive_stance(self):
 		runner = _make_game()
@@ -190,3 +194,28 @@ class TestGuardian(Test):
 		self.assert_false(turn)
 		self.assert_int_equal(40, caster_tp - runner.p1_team['f1'].tp_current)
 		self.assert_int_equal(250, runner.p1_team['f1'].hp_current - caster_hp)
+
+	def test_guardian_knockback(self):
+		runner = _make_game()
+
+		caster_tp = runner.p1_team['f1'].tp_current
+		target = runner.p2_team['f1'].name
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_knock_key = None
+		for k, v in p1_possible_choices['p1_guardian_01'].items():
+			if 'use Knockback' in v:
+				p1_knock_key = k
+		p1_choices = {
+			'p1_guardian_01': p1_knock_key
+		}
+		self.assert_true('p1_guardian_01' in p1_knock_key)
+		runner.finalise_choice(p1_knock_key, [target])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(30, caster_tp - runner.p1_team['f1'].tp_current)
+		self.assert_null(runner.p2_team['f1'])
+		self.assert_not_null(runner.p2_team['b1'])
+		self.assert_str_equal(target, runner.p2_team['b1'].name)

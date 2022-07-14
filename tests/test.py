@@ -70,6 +70,18 @@ class Test:
 		self.messages = []
 		print("\ndone!\n")
 
+	def assert_null(self, value) -> None:
+		self._assert(
+			value is None,
+			"failed asserting that " + str(value.__class__) + " is None"
+		)
+
+	def assert_not_null(self, value) -> None:
+		self._assert(
+			value is not None,
+			"failed asserting that " + str(value.__class__) + " is not None"
+		)
+
 	def assert_true(self, boolean_value: bool) -> None:
 		self._assert(
 			boolean_value,

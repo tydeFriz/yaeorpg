@@ -3,6 +3,18 @@ from tests.test import Test
 
 class TestSelf(Test):
 
+	def test_assert_null(self):
+		x = None
+		self.assert_null(x)
+		x = 2
+		self.assert_null(x)
+
+	def test_assert_not_null(self):
+		x = 2
+		self.assert_not_null(x)
+		x = None
+		self.assert_not_null(x)
+
 	def test_assert_true(self):
 		x = True
 		self.assert_true(x)
