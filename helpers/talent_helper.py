@@ -15,6 +15,7 @@ from models.spells.spell_archer_tracking_arrow import SpellArcherTrackingArrow
 from models.spells.spell_archer_cripple import SpellArcherCripple
 from models.spells.spell_guardian_anchor_howl import SpellGuardianAnchorHowl
 from models.spells.spell_guardian_defensive_stance import SpellGuardianDefensiveStance
+from models.spells.spell_guardian_health_boost import SpellGuardianHealthBoost
 from models.spells.spell_guardian_last_stand import SpellGuardianLastStand
 
 
@@ -64,7 +65,7 @@ class TalentHelper:
 			Talent.GUARDIAN_DEFENSIVE_STANCE: SpellGuardianDefensiveStance,
 			Talent.GUARDIAN_ANCHOR_HOWL: SpellGuardianAnchorHowl,
 			Talent.GUARDIAN_LAST_STAND: SpellGuardianLastStand,
-
+			Talent.GUARDIAN_HEALTH_BOOST: SpellGuardianHealthBoost,
 		},#todo: wip
 		JobName.HEXER: {},
 		JobName.MAGE: {},

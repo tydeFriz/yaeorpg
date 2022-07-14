@@ -12,6 +12,7 @@ def _make_game() -> Runner:
 		Talent.GUARDIAN_DEFENSIVE_STANCE: 2,
 		Talent.GUARDIAN_ANCHOR_HOWL: 2,
 		Talent.GUARDIAN_LAST_STAND: 2,
+		Talent.GUARDIAN_HEALTH_BOOST: 2,
 	}
 
 	Game.make_runner(
@@ -46,6 +47,7 @@ class TestGuardian(Test):
 			Talent.GUARDIAN_DEFENSIVE_STANCE: 1,
 			Talent.GUARDIAN_ANCHOR_HOWL: 1,
 			Talent.GUARDIAN_LAST_STAND: 1,
+			Talent.GUARDIAN_HEALTH_BOOST: 1,
 			# todo: spells
 		}
 
@@ -164,3 +166,27 @@ class TestGuardian(Test):
 		turn = runner.turn({}, {})
 		self.assert_false(turn)
 		self.assert_int_equal(0, len(runner.p1_team['f1'].buffs))
+
+	def test_guardian_health_boost(self):
+		runner = _make_game()
+
+		caster_tp = runner.p1_team['f1'].tp_current
+		runner.p1_team['f1'].damage(400)
+		caster_hp = runner.p1_team['f1'].hp_current
+
+		p1_possible_choices = runner.get_p1_encoded_choices()
+
+		p1_health_key = None
+		for k, v in p1_possible_choices['p1_guardian_01'].items():
+			if 'use Health Boost' in v:
+				p1_health_key = k
+		p1_choices = {
+			'p1_guardian_01': p1_health_key
+		}
+		self.assert_true('p1_guardian_01' in p1_health_key)
+		runner.finalise_choice(p1_health_key, [runner.p1_team['f1'].name])
+
+		turn = runner.turn(p1_choices, {})
+		self.assert_false(turn)
+		self.assert_int_equal(40, caster_tp - runner.p1_team['f1'].tp_current)
+		self.assert_int_equal(250, runner.p1_team['f1'].hp_current - caster_hp)
