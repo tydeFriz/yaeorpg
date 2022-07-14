@@ -189,7 +189,7 @@ class Runner:
 				team[pos] = toon
 		return team
 
-	def _get_toon_allies(self, toon: Toon, p2=False):
+	def _get_toon_allies(self, toon: Toon, p2=False) -> dict[str, Toon]:
 		if p2:
 			check_team = self.get_p2_team()
 		else:
