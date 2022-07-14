@@ -38,7 +38,7 @@ class TestGuardian(Test):
 
 	def test_guardian_talents(self):
 		talents = {
-		#	Talent.GUARDIAN_TRAIT_UP: 3, todo: clueless
+			# Talent.GUARDIAN_TRAIT_UP: 3, todo: clueless
 			Talent.GUARDIAN_AP_UP: 3,
 			Talent.GUARDIAN_HP_UP: 3,
 			Talent.GUARDIAN_TP_UP: 3,
@@ -46,7 +46,7 @@ class TestGuardian(Test):
 			Talent.GUARDIAN_DEFENSIVE_STANCE: 1,
 			Talent.GUARDIAN_ANCHOR_HOWL: 1,
 			Talent.GUARDIAN_LAST_STAND: 1,
-			#todo: spells
+			# todo: spells
 		}
 
 		Game.make_runner(
