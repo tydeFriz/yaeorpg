@@ -157,7 +157,7 @@ class TestArcher(Test):
 		self.assert_false(turn)
 		self.assert_int_equal(0, len(runner.p1_team['b1'].lingering_effects))
 
-	def test_archer_tracking_arrow(self): #todo: test debuff stacking
+	def test_archer_tracking_arrow(self):  # todo: test debuff stacking
 		runner = _make_game()
 
 		self.assert_int_equal(0, runner.p2_team['f1'].get_attribute(Attribute.ARMOR))
@@ -235,7 +235,7 @@ class TestArcher(Test):
 		self.assert_int_equal(-40, runner.p2_team['f1'].get_attribute(Attribute.SPELL_RES))
 		self.assert_int_equal(154, original_hp - runner.p2_team['f1'].hp_current)
 
-	def test_archer_cripple(self): #todo: test debuff stacking
+	def test_archer_cripple(self):  # todo: test debuff stacking
 		runner = _make_game()
 
 		self.assert_int_equal(5, runner.p2_team['f1'].get_attribute(Attribute.SPEED))
